@@ -2,7 +2,7 @@ import time
 from typing import List
 import numpy as np
 import pandas as pd
-from utils import SingletonIDGenerator
+from src.utils import SingletonIDGenerator
 
 id_gen = SingletonIDGenerator()
 
@@ -45,7 +45,7 @@ class CustomerRequest:
         return self.merged_data
 
     def create_user_password(self) -> str:
-        return self.password_prefix + str(np.random.randint(100000, 99999))
+        return self.password_prefix + str(np.random.randint(100000, 999999))
 
     def get_metadata(self):
         self.metadata = {
