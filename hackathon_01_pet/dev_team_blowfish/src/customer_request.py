@@ -9,11 +9,19 @@ id_gen = SingletonIDGenerator()
 
 class CustomerRequest:
     def __init__(
-        self, org_name: str, dataset1: str, dataset2: str, merge_col: str
+        self, 
+        org_name: str, 
+        dataset1: str, 
+        dataset1_cols: List[str], 
+        dataset2: str, 
+        dataset2_cols: List[str], 
+        merge_col: str
     ) -> None:
         self.org_name: str = org_name
         self.dataset1: str = dataset1
+        self.dataset1_cols: List[str] = dataset1_cols
         self.dataset2: str = dataset2
+        self.dataset2_cols: List[str] = dataset2_cols
         self.merge_col: str = merge_col
         self.req_id: int = next(id_gen)
         self.epoch: float = time.time()
@@ -33,7 +41,7 @@ class CustomerRequest:
                 )
 
         self.merged_data = pd.merge(
-            self.data[self.dataset1], self.data[self.dataset2], on=self.merge_col
+            self.data[self.dataset1][self.dataset1_cols], self.data[self.dataset2][self.dataset2_cols], on=self.merge_col
         )
 
     def get_data(self, hashing_obj, customer_password: str, hashed_cols: List[str]):
@@ -42,7 +50,7 @@ class CustomerRequest:
             self.merged_data[col] = cr_hasher.hash_data(
                 self.merged_data[col], customer_password
             )
-        return self.merged_data
+        return self.merged_data.sort_values(by=hashed_cols[0]).reset_index(drop=True)
 
     def create_user_password(self) -> str:
         return self.password_prefix + str(np.random.randint(100000, 999999))
