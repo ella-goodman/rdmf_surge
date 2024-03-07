@@ -65,3 +65,6 @@ class CustomerRequest:
 
     def get_password_suffix(self) -> str:
         return self.password_suffix
+
+    def get_epoch_str(self) -> str:
+        return str(self.epoch)

@@ -25,6 +25,7 @@ class Hasher:
         salts = [
             customer_password,
             self.customer_request.get_password_suffix().encode(),
+            self.customer_request.get_epoch_str().encode()
         ]
         input_data_with_salt = str(input_value).encode() + np.sum(salts)
         hash_key = hashlib.sha256(input_data_with_salt).hexdigest()
