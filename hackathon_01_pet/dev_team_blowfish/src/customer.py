@@ -11,3 +11,11 @@ class Customer:
 
     def get_password(self) -> Optional[str]:
         return self.password
+    
+    def set_data(self, data):
+        self.data = data
+        
+    def get_data(self):
+        return self.data
+        
+        
